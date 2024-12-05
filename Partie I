@@ -1,0 +1,48 @@
+Q1 <- read.table("Question1.txt", header = TRUE, sep = "\t", dec = ",")
+names(Q1) <- c("Regulation", "Fournisseur", "Num", "teneur_sel")
+
+par(mfrow = c(3, 2))
+plot(Q1$Num[Q1$Regulation == "RA" & Q1$Fournisseur == "F1"], 
+     Q1$teneur_sel[Q1$Regulation == "RA" & Q1$Fournisseur == "F1"], 
+     main = "Condition: RA - F1", xlab = "Numéros", ylab = "Teneur en sel", 
+     pch = 19, col = "blue")
+
+plot(Q1$Num[Q1$Regulation == "RA" & Q1$Fournisseur == "F2"], 
+     Q1$teneur_sel[Q1$Regulation == "RA" & Q1$Fournisseur == "F2"], 
+     main = "Condition: RA - F2", xlab = "Numéros", ylab = "Teneur en sel", 
+     pch = 19, col = "blue")
+
+plot(Q1$Num[Q1$Regulation == "RA" & Q1$Fournisseur == "F3"], 
+     Q1$teneur_sel[Q1$Regulation == "RA" & Q1$Fournisseur == "F3"], 
+     main = "Condition: RA - F3", xlab = "Numéros", ylab = "Teneur en sel", 
+     pch = 19, col = "blue")
+
+plot(Q1$Num[Q1$Regulation == "RM" & Q1$Fournisseur == "F1"], 
+     Q1$teneur_sel[Q1$Regulation == "RM" & Q1$Fournisseur == "F1"], 
+     main = "Condition: RM - F1", xlab = "Numéros", ylab = "Teneur en sel", 
+     pch = 19, col = "blue")
+
+plot(Q1$Num[Q1$Regulation == "RM" & Q1$Fournisseur == "F2"], 
+     Q1$teneur_sel[Q1$Regulation == "RM" & Q1$Fournisseur == "F2"], 
+     main = "Condition: RM - F2", xlab = "Numéros", ylab = "Teneur en sel", 
+     pch = 19, col = "blue")
+
+plot(Q1$Num[Q1$Regulation == "RM" & Q1$Fournisseur == "F3"], 
+     Q1$teneur_sel[Q1$Regulation == "RM" & Q1$Fournisseur == "F3"], 
+     main = "Condition: RM - F3", xlab = "Numéros", ylab = "Teneur en sel", 
+     pch = 19, col = "blue")
+
+
+
+valeurs <-read.table("Question2!.txt", header = TRUE, sep = "\t", dec = ",")
+names(valeurs) <- c("Regulation", "Fournisseur", "Num", "teneur_sel")
+library(dplyr)
+
+RAF1 <-filter(valeurs, Regulation == "RA", Fournisseur == "F1")
+RAF2 <-filter(valeurs, Regulation == "RA", Fournisseur == "F2")
+RAF3 <-filter(valeurs, Regulation == "RA", Fournisseur == "F3")
+RMF1 <-filter(valeurs, Regulation == "RM", Fournisseur == "F1")
+RMF2 <-filter(valeurs, Regulation == "RM", Fournisseur == "F2")
+RMF3 <-filter(valeurs, Regulation == "RM", Fournisseur == "F3")
+
+print(aggregate(teneur_sel ~ Regulation + Fournisseur, data = valeurs, summary))
