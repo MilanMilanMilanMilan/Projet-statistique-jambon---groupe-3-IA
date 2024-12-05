@@ -1,3 +1,4 @@
+
 #partie 1
 #figure 21 : 
 data <- read.table("Question4a.txt", header = TRUE, sep = "\t")
@@ -6,8 +7,15 @@ boxplot(data$notes_2, data$notes_1.5,
         main = "Comparaison des préférences des consommateurs",
         ylab = "Notes des consommateurs",
         col = c("lightblue", "lightgreen"))
+dfq4a <- read_excel("Jambonexo4a.xlsx")
 
+colnames(dfq4a) <- c('Jambon','teneur_sel_2','teneur_sel_1_5')
+View(dfq4a)
 
+wilcox_test_result <- wilcox.test(dfq4a$teneur_sel_2, dfq4a$teneur_sel_1_5, paired = TRUE, alternative = "two.sided")
+
+`print(wilcox_test_result)`
+#Même jambon : apparié
 
 
 # partie 2
