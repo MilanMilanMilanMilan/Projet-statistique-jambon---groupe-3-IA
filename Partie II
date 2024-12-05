@@ -1,0 +1,41 @@
+#Question 2
+rm(list=ls()) 
+valeurs <- read.table('Question2!.txt', header = TRUE, sep = "\t", dec = ",")
+
+names(valeurs) <- c("Regulation","Fournisseur","Num","Rep") 
+#mettre régulation et fournisseur en facteur
+valeurs$Regulation <- as.factor(valeurs$Regulation) 
+valeurs$Fournisseur <- as.factor(valeurs$Fournisseur) 
+
+
+# Les données sont indépendantes 
+#Test de la normalité des résidus  
+lm1 <- lm(Rep ~ Regulation * Fournisseur , data = valeurs) 
+residus <- residuals(lm1) 
+shapiro.test(residus) 
+
+layout(1,1)
+qqnorm(residus, main = "QQ Plot des Résidus")
+qqline(residus, col = "red", lwd = 2)
+
+#test variance
+valeurs$group=paste(as.character(valeurs$Regulation),as.character(valeurs$Fournisseur)) 
+valeurs$group=as.factor(valeurs$group) 
+bartlett.test(valeurs$Rep,valeurs$group) 
+
+# Anova 
+lm1 <- lm(Rep ~ Regulation * Fournisseur , data = valeurs) 
+anova(lm1) 
+
+
+#test shapiro sur RM et RA
+shapiro.test(RM)
+shapiro.test(RA)
+
+#test variances entre RM et RA
+var.test(RA,RM)
+
+#student
+RM<-valeurs$Rep[valeurs$Regulation=="RM"]
+RA<-valeurs$Rep[valeurs$Regulation=="RA"]
+t.test(RM,RA,var.equal = F,paired=F,alternative="greater")
