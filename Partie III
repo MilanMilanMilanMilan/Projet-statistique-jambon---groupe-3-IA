@@ -15,3 +15,13 @@ qqline(valeurs$teneur_sel, col = "red")
 t_test_result <- t.test(valeurs$teneur_sel, mu = 2, alternative = "greater")
 print(t_test_result)
 
+
+
+
+
+#figure 19
+boxplot(valeurs$teneur_sel, Valeurs_concu$Produits_concurrents,
+        main = "Boxplot de la teneur en sel selon Séchoir",
+        xlab = "Nos données",
+        ylab = "Teneur en sel",
+        col = c("lightblue", "lightgreen"))
