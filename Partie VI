@@ -1,0 +1,25 @@
+
+library(pgirmess)
+valeursQ6 <- read.table('Exercice 6.txt',h=F, sep='\t',dec = ",")
+valeursQ6 <- valeursQ6[-1,]
+summary(valeursQ6)
+
+head(valeursQ6)
+valeursQ6 <- data.frame(lapply(valeursQ6, as.numeric))
+names(valeursQ6) <- c("teneur_lip","teneur_prot","poids","teneur_eau","teneur_sel")
+
+shapiro.test(valeursQ6$teneur_lip)
+shapiro.test(valeursQ6$teneur_prot)
+shapiro.test(valeursQ6$poids)
+shapiro.test(valeursQ6$teneur_eau)
+shapiro.test(valeursQ6$teneur_sel)
+
+boxplot(valeursQ6$teneur_lip, valeursQ6$teneur_prot, valeursQ6$teneur_eau, valeursQ6$teneur_sel, data = valeursQ6, 
+        main = "Répartition des teneurs (%) selon leur type", xlab = "Type de teneur", ylab = "Pourcentage (%)")
+
+pairs(valeursQ6)
+
+matrice_correlation <-cor(valeursQ6, method = "pearson")
+print(matrice_correlation)
+
+cormat(valeursQ6, method = "pearson", sep = TRUE)
