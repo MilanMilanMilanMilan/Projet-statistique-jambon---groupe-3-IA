@@ -19,6 +19,9 @@ print(t_test_result)
 
 
 
+
+
+
 #figure 19
 boxplot(valeurs$teneur_sel, Valeurs_concu$Produits_concurrents,
         main = "Boxplot de la teneur en sel selon Séchoir",
