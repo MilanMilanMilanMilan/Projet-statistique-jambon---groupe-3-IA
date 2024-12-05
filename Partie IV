@@ -2,14 +2,22 @@
 
 
 # partie 2
-##test gout salé
 ks<-read.table("Q4.txt",h=T, sep = "\t", dec = ",") 
+viande<-read.table("Q4viande.txt",h=T, sep = "\t", dec = ",") 
+
+##test de normalité : 
+shapiro.test(ks$score_descripteur_sale)
+shapiro.test(viande$score_descripteur_viande)
+
+##test gout salé
 ks$jambons <- as.factor(ks$jambons) 
 ks$Num <- as.factor(ks$Num) 
 friedman.test(ks$score_descripteur_sale,ks$jambons,ks$Num) 
 
 ##test saveur viande
-viande<-read.table("Q4viande.txt",h=T, sep = "\t", dec = ",") 
 viande$jambons <- as.factor(viande$jambons) 
 viande$Num <- as.factor(viande$Num) 
 friedman.test(viande$score_descripteur_viande,viande$jambons,viande$Num) 
+
+
+
