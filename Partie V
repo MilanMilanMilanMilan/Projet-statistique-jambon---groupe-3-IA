@@ -1,0 +1,52 @@
+valeurs <- read.table('Question5!.txt', header = TRUE, sep = "\t", dec = ",")
+names(valeurs) <- c("Sechoir","Humidite","Num","Rep") 
+
+#mettre régulation et fournisseur en facteur
+valeurs$Sechoir <- as.factor(valeurs$Sechoir) 
+valeurs$Humidite <- as.factor(valeurs$Humidite) 
+
+
+# Les données sont indépendantes 
+#Test de la normalité des résidus  
+lm1 <- lm(Rep ~ Sechoir * Humidite , data = valeurs) 
+residus <- residuals(lm1) 
+shapiro.test(residus) 
+
+layout(1,1)
+qqnorm(residus, main = "QQ Plot des Résidus")
+qqline(residus, col = "red", lwd = 2)
+
+
+#test variance
+valeurs$group=paste(as.character(valeurs$Sechoir),as.character(valeurs$Humidite)) 
+valeurs$group=as.factor(valeurs$group) 
+bartlett.test(valeurs$Rep,valeurs$group) 
+#Reprise du script ANOVA si toutes les conditions sont remplies 
+summary(valeurs) 
+
+# anova
+lm1 <- lm(Rep ~ Sechoir * Humidite , data = valeurs) 
+anova(lm1) 
+
+
+# Visualisation des interactions 
+par(mfrow=c(1,2)) 
+layout(1,1)
+attach(valeurs) 
+interaction.plot(Sechoir, Humidite, Rep,col = 2:20, lwd=2) 
+interaction.plot (Humidite, Sechoir, Rep,col = 2:20, lwd=2) 
+detach(valeurs) 
+
+
+summary(fm1<-aov(Rep ~ Sechoir * Humidite , data = valeurs))
+TukeyHSD(fm1,"Sechoir:Humidité",alpha=0.05,ordered=TRUE)
+
+#graph tuckey
+library(agricolae)
+modele<-aov(valeurs$Rep~Fact1*Fact2)
+DFerror <-df.residual(modele)
+MSerror <- deviance(modele)/DFerror
+compar<- HSD.test(valeurs$Rep,Fact1:Fact2, DFerror, MSerror)
+compar
+plot(compar, xlab = "Séchoir (pilote ou référence) et humidité (H1, H2, H3, H4)")
+layout(1,1)
